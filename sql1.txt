@@ -1,0 +1,280 @@
+select * from customers;
+
+/*SELECT count(*) as totalCountries FROM (select distinct Country from customers); */
+
+SELECT * FROM Customers
+WHERE Country='mexico';
+
+select * from customers where CustomerID <> 37
+
+select * from customers where CustomerID between 20 and 23
+
+select * from customers where CustomerName like '%s'
+
+select * from customers where City in ('london', 'cork')
+
+select * from customers order by Country, city;
+
+select * from customers where city like 'b%' and Country like 'b%'
+
+select * from customers where Country = 'Spain' AND CustomerName LIKE 'G%';
+
+SELECT *
+FROM Customers
+WHERE Country = 'Germany' OR Country = 'Spain';
+
+select * from customers where Country in ('germany', 'spain');
+
+select * from customers
+where City = 'berlin' or CustomerName like 'g%' or Country = 'norway';
+
+select * from customers
+where Country = 'spain'
+and (CustomerName like 'G%' or CustomerName like 'r%' );
+
+select * from customers
+where Country = 'spain'
+and CustomerName like 'G%' or CustomerName like 'r%';
+
+select * from customers
+where  CustomerName not like 'g%';
+
+select * from customers where CustomerName like 'y%';
+
+INSERT INTO Customers  (CustomerID,CustomerName, ContactName, Address, City, PostalCode, Country)
+               values(92, 'Yash Parmar' , 'Yash', 'tele, exchange', 'rajkot', '360005', 'india');
+
+INSERT INTO Customers (CustomerID,CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES
+(93,'Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway'),
+(94,'Greasy Burger', 'Per Olsen', 'Gateveien 15', 'Sandnes', '4306', 'Norway'),
+(95,'Tasty Tee', 'Finn Egan', 'Streetroad 19B', 'Liverpool', 'L1 0AA', 'UK');
+
+INSERT INTO Customers (CustomerID,CustomerName, ContactName, City, PostalCode, Country)
+VALUES (96, 'test', 'test case', 'rajkot', '360006', 'india' )
+
+select CustomerName, ContactName, Address from customers where Address is null
+
+select * from customers where Address is not null
+
+select * from customers where CustomerName = 'test'
+
+update customers
+set Address = 'test address'
+where CustomerName = 'test'
+
+delete from customers where CustomerName= 'test'
+
+select top 2 * from customers 
+where CustomerName like 'a%' 
+
+select top 3 * from customers
+where Country = 'Germany'
+
+
+select * from products order by CategoryID
+select min(price) as minPrice from products where CategoryID = 1
+select max(price) from products where CategoryID = 1
+
+select count(ProductID) from products where price > 100;
+
+select count(distinct price) from products
+
+select count(price) as [numers of cols] from products 
+
+select sum(Quantity) as 'total products' from order_details
+
+select avg(price) from products where CategoryID = 1;
+
+select * from customers
+
+select customerName from customers where CustomerName like 'd%' or CustomerName like '%r'
+
+select * from customers where CustomerName like '[a-d]%'
+
+select * from customers
+where country in ('uk', 'usa') order by Country
+
+select * from products
+where price between 10 and 30
+and CategoryID in (1,2,3)
+order by CategoryID
+
+select * from products
+where ProductName not between 'chais' and 'tofu'
+order by ProductName
+
+SELECT * FROM Products
+WHERE ProductName like 'Carnarvon Tigers'
+
+SELECT * FROM Orders
+select * from customers
+
+SELECT * FROM Orders
+WHERE OrderDate BETWEEN '07/01/1996' AND '07/31/1996';
+
+
+select customerName, address + ',' + 'city' + postalcode + 'country' as 'new address' from customers;
+
+select orders.OrderID , customers.CustomerName from orders
+inner join customers
+on orders.CustomerID  = customers.CustomerID
+
+
+select orders.OrderID, customers.CustomerName from orders
+inner join customers on orders.CustomerID = customers.CustomerID;
+
+
+SELECT Orders.OrderID, Customers.CustomerName, Shippers.ShipperName
+FROM ((Orders
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID)
+INNER JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID);
+
+
+SELECT Customers.CustomerName, Orders.OrderID
+FROM Customers
+left JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+ORDER BY Customers.CustomerName;
+
+select * from employees
+select * from orders
+
+select orders.OrderID, employees.LastName, employees.FirstName 
+from orders
+right join employees on orders.EmployeeID = employees.EmployeeID
+order by orders.OrderID
+
+select orders.OrderID, employees.LastName, employees.FirstName from orders
+left join employees on orders.EmployeeID = employees.EmployeeID
+order by orders.OrderID
+
+select customers.CustomerName, orders.OrderID 
+from customers
+full outer join orders on customers.CustomerID = orders.CustomerID
+order by customers.CustomerName
+
+select a.CustomerName as 'cus1', b.customerName as 'cus2', a.city
+from customers a, customers b
+where a.CustomerID <> b.CustomerID
+and a.City = b.City
+order by a.city;
+
+select city from customers
+union
+select city from suppliers
+order by city
+
+select * from products
+
+select city, country from customers where city ='london'
+union all
+select city, country from suppliers where city ='tokyo'
+
+select count(CustomerID), country from customers group by Country order by count(CustomerID) 
+
+select shippers.ShipperID ,count(orders.OrderID) from orders
+left join shippers on shippers.ShipperID = orders.ShipperID
+group by shippers.ShipperID
+
+select categories.CategoryID , count(products.ProductID)  from categories
+left join products on categories.CategoryID = products.CategoryID
+group by categories.CategoryID
+
+select count(distinct country) from customers
+
+SELECT COUNT(CustomerID), Country
+FROM Customers
+GROUP BY Country
+HAVING COUNT(CustomerID) > 10;
+
+select employees.LastName , count(orders.OrderID) from orders
+left join employees on employees.EmployeeID = orders.EmployeeID
+group by employees.LastName
+having count(orders.OrderID) > 10
+
+SELECT SupplierName
+FROM Suppliers
+WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price > 30);
+
+select * from Products where ProductID = 41
+
+SELECT ProductName, ProductID
+FROM Products
+WHERE ProductID = ANY
+  (SELECT ProductID
+  FROM order_details
+  WHERE Quantity > 10);
+
+
+  SELECT ProductID
+  FROM order_details
+  WHERE Quantity > 10
+  
+  
+
+SELECT ProductName
+FROM Products
+WHERE ProductID = any
+  (SELECT ProductID
+  FROM Order_details
+  WHERE Quantity = 10);
+
+  SELECT ProductID
+  FROM Order_details
+  WHERE Quantity = 10;
+
+  /*select * into customersBackUp from customers;*/
+
+
+  select * from products
+   --select * into customersGermany from customers where Country = 'germany'
+   --select * from customersGermany
+
+select ProductName,
+case
+	when price > 40 then 'gtr 40'
+	when price = 40 then 'equal 40'
+	else 'less 40'
+end as priceRange
+from products;
+
+select * from products where price is null
+
+create procedure selectAllCustomers
+as
+	select * from customers
+go
+
+create procedure selectAllProducts
+as
+	select * from products
+go
+
+create procedure selectAllEmployees
+as
+	select * from employees
+go
+
+exec selectAllCustomers
+
+create procedure selectCustomersCity @city nvarchar(30)
+as
+ select * from customers where city = @city;
+go
+
+create procedure customersCityCoutry
+	@city nvarchar(30),
+	@country nvarchar(30)
+as
+	select * from customers where city = @city and country = @country;
+go
+
+create procedure customersCityCoutry3
+	@city nvarchar(30),
+	@country nvarchar(30)
+as
+	select * from customers where city like @city + '%' and country like @country + '%';
+go
+
+
+exec customersCityCoutry3 @city = 'gr' ,@country = 'aus';
