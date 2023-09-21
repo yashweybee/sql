@@ -1,0 +1,114 @@
+--create table testTable(
+--	personId int,
+--	personName varchar(255),
+--	address varchar(255)
+--)
+
+
+
+--insert into testTable
+--	(personId, personName, address)
+--	values 
+--	(1,'test1','abcd address'),
+--	(2,'test2','asdf address'),
+--	(3,'test3','qwert address')
+
+--alter table testTable
+-- alter column personId int not null
+
+--update testTable set email = 'testmail@gmail' where personId = 1;
+--update testTable set email = 'testmail2@gmail' where personId = 2; 
+--update testTable set email = 'testmail3@gmail' where personId = 3;
+
+
+--insert into testTable
+--			(personId, personName, address, email)
+--			values
+--			(5, 'sdfs', 'sdfg', 'asgg@gmail')
+
+--alter table testTable
+-- drop column email;
+
+--alter table testTable
+--	add dob date,edu varchar(10);
+
+--alter table testTable drop column edu
+
+--alter table testtable drop column email
+
+--select * from testTable
+
+--delete from testTable where personid is null
+
+--drop table testTable
+
+--truncate table testTable
+
+--create table newTestDb(
+--	id int not null unique,
+--	lastName varchar(20) not null,
+--	firshName varchar(20) not null,
+--	age int
+--)
+
+--insert into newTestDb
+--		(id, lastName, firshName, age)
+--		values
+--		(1,'aaaa','bbbb', 10),
+--		(2,'mmm','ggdg', 23)
+
+--insert into newTestDb
+--		(id, lastName, firshName)
+--		values
+--		(3,'vvv', 'jjjj')
+
+--update newtestDb set age = 25 where id = 3
+
+--alter table newtestdb
+--	alter column age int not null ;
+
+--alter table newtestdb
+-- add CONSTRAINT  id unique (age);
+
+	--insert into newTestDb
+	--	(id, lastName, firshName, age)
+	--	values
+	--	(5,'wudgf', 'uagd', 68)
+
+--alter table newTestDb
+--	drop constraint id
+
+		--insert into newTestDb
+		--(id, lastName, firshName, age)
+		--values
+		--(6,'hsdvf', 'sdgas', 68)
+
+--alter table newTestDb
+--  add constraint pk primary key(id)
+
+--delete from newTestDb where id = 1
+
+
+--alter table newTestDb
+-- add constraint ch_age check(age >= 18);
+
+--insert into newtestdb
+--	(id, lastName, firshName, age)
+--	values
+--	(1,'shdv', 'hvc', 34)
+
+--create index fnames on newtestdb(firshName)
+
+create view [adult persons] as
+select * from newtestdb
+where age >= 18
+
+select * from [adult persons]
+
+--insert into newtestdb
+--	(id, lastName, firshName, age)
+--	values
+--	(7,'shdv', 'hvc', 66)	
+
+
+select * from newTestdb
