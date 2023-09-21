@@ -1,0 +1,165 @@
+--create database practiceDB
+
+--a
+--create table AUTHOR(
+--	Author_ID varchar(20) not null primary key,
+--	Author_Name varchar(255) not null
+--)
+
+
+--b
+--create table BOOKS(
+--	Book_ID varchar(20) not null primary key,
+--	Book_Name varchar(255) not null,
+--	Author_ID varchar(20) not null foreign key REFERENCES Author(Author_ID),
+--	Price int not null,
+--	Publisher_ID varchar(20) not null foreign key references PUBLISHER(Publisher_ID)
+--)
+
+
+--c
+--create table CUSTOMER(
+--	Customer_ID varchar(20) not null primary key,
+--	Customer_Name varchar(255) not null,
+--	Street_Address varchar(255) not null,
+--	city varchar(255) not null,
+--	Phone_Number varchar(255) not null,
+--	Credit_Card_Number varchar(100) not null foreign key references CREDIT_CARD_DETAILS(Credit_Card_Number)
+--)
+
+--d
+--create table CREDIT_CARD_DETAILS(
+--	Credit_Card_Number varchar(100) not null primary key,
+--	Credit_Card_Type varchar(255) not null,
+--	Expiry_Date date not null
+--)
+
+--e
+--create table ORDER_DETAILS(
+--	Order_ID int not null primary key,
+--	Customer_ID varchar(20) not null foreign key REFERENCES CUSTOMER(Customer_ID),
+--	Shipping_Type varchar(255) not null foreign key references SHIPPING_TYPE(Shipping_Type),
+--	Date_Of_Purchase date not null,
+--	Shopping_Cart_ID int not null foreign key references SHOPPING_CART(Shopping_Cart_ID)
+--)
+
+--f
+--create table PUBLISHER(
+--	Publisher_ID varchar(20) not null primary key,
+--	Publisher_Name varchar(255) not null,
+--)
+
+--g
+--create table PURCHASE_HISTORY(
+--	Customer_ID varchar(20) not null foreign key references CUSTOMER(Customer_ID),
+--	Order_ID int not null foreign key references ORDER_DETAILS(Order_ID)
+--)
+
+--h
+--create table SHIPPING_TYPE(
+--	Shipping_Type varchar(255) not null primary key,	
+--	Shipping_Price int 
+--)
+
+--i
+--create table SHOPPING_CART(
+--	Shopping_Cart_ID int not null primary key,
+--	Book_ID varchar(20) not null foreign key references BOOKS(Book_ID),
+--	Price int,
+--	Date date,
+--	Quantity int
+--)
+
+
+/********************/
+
+--begin tran
+--insert into Author
+--	(author_id, author_name)
+--	values
+--	('1','Yash'),
+--	('2', 'Ravi')
+--rollback tran
+
+
+--insert into credit_card_details
+--	values
+--	('10012002', '1', '2023-12-31'),
+--	('30045006', '2', '2023-10-12')
+
+
+--insert into customer
+--	values
+--	('101', 'cus-1', 'address-1', 'rajkot', '9054638298', '10012002'),
+--	('102', 'cus-2', 'address-2', 'ahemdabad', '5673895402', '30045006')
+
+--insert into publisher
+--	values
+--	('10012002', 'pub-1'),
+--	('30045006', 'pub-2')
+
+--insert into books
+--	values
+--	('1001', 'Book-1', '1', 2000, '10012002'),
+--	('1002', 'Book-2', '2', 1500, '30045006')
+
+--insert into shipping_type
+--	values
+--	('501', 100),
+--	('502', 150)
+
+--insert into shopping_cart
+--	values
+--	(601,'1001', 2000, '2023-12-31', 150 ),
+--	(602,'1002', 1500, '2023-10-12', 200 )
+
+--insert into ORDER_DETAILS
+--	values
+--	(901 , '101', '501','2023-12-31', 601 ),
+--	(902 , '102', '502','2023-10-12', 602 )
+
+--insert into purchase_history
+--	values
+--	('101',901 ),
+--	('102', 902)
+
+--create procedure selectAllTables
+--as
+--	select * from purchase_history;
+--	select * from order_details;
+--	select * from shopping_cart;
+--	select * from shipping_type;
+--	select * from books;
+--	select * from publisher;
+--	select * from customer;
+--	select * from credit_card_details;
+--	select * from author;
+--go
+
+--selectAllTables;
+
+--Create the view for the Customer_Details. View should include the columns: Customer Name, Customer Address and details of the order placed by customer.
+
+--alter view Customer_Details as
+--select customer.customer_name as 'Customer Name', customer.street_address as 'Customer Address', order_details.*
+--from customer
+--right join order_details 
+--on customer.customer_id = order_details.customer_id
+
+--select * from Customer_Details
+
+
+
+--Create a report that contains each customer's history of purchasing books. Be sure to include the cusotmer name, customer ID, book ID, DOP and shopping card ID.
+
+--create view Customer_history as
+--select customer.customer_name as 'cusotmer name' , customer.customer_Id as 'customer ID',
+--shopping_cart.book_ID as 'book ID', order_details.date_of_purchase as 'DOP', order_details.shopping_cart_id as ' shopping card ID'
+--from customer
+--right join order_details 
+--on customer.customer_id = order_details.customer_id
+--right join shopping_cart
+--on order_details.shopping_cart_id = shopping_cart.shopping_cart_id
+
+--select * from Customer_history
+
