@@ -28,21 +28,27 @@
 --	where a.EMPLOYEE_ID = b.MANAGER_ID and a.hire_date < b.hire_date 
 
 --8. Create a report for the HR department that displays employee last names, department numbers, and all the employees who work in the same department as a given employee.
---select LAST_NAME, DEPARTMENT_ID from employees order by DEPARTMENT_ID
+--create view sameDept as
+--select emp1.LAST_NAME [name], emp1.DEPARTMENT_ID [department], emp2.*
+--from employees emp1
+--inner join departments emp2
+--on emp1.DEPARTMENT_ID = emp2.DEPARTMENT_ID
+
+--select * from sameDept
 
 --9. Find the highest, lowest, sum, and average salary of all employees. Label the columns Maximum, Minimum, Sum, and Average, respectively. Round your results to the nearest whole number.
 --select CEILING(max(SALARY)) 'Maximum', CEILING(min(SALARY)) 'Minimum', CEILING(sum(SALARY)) 'Sum', CEILING(avg(SALARY)) 'Average' from employees;
 
 --10. Create a report that displays list of employees whose salary is more than the salary of any employee from department 60.
---select * from employees where SALARY = any(select SALARY from employees where DEPARTMENT_ID = 60)
+--select * from employees where SALARY > any(select SALARY from employees where DEPARTMENT_ID = 60)
 
 --11. Create a report that displays last name and salary of every employee who reports to King(Use any manager name instead of King).
 --select LAST_NAME, SALARY from employees where MANAGER_ID in (select EMPLOYEE_ID from employees where LAST_NAME = 'king')
 
 --12. Write a query to display the list of department IDs for departments that do not contain the job Id ST_CLERK(Add this job ST_CLERK to Job table). Use SET Operator for this query
---select DEPARTMENT_ID from DEPARTMENTS 
---union 
---select JOB_ID from JOBS where JOB_ID != 'ST_CLERK'
+--select DEPARTMENT_ID from employees 
+--EXCEPT 
+--select DEPARTMENT_ID from employees where JOB_ID = 'ST_CLERK'
 
 --13. Write a query to display the list of employees who work in department 50 and 80. Show employee Id, job Id and department Id by using set operators. - Add 50 and 80 department Id to department table
 --select EMPLOYEE_ID, JOB_ID, DEPARTMENT_ID from employees where DEPARTMENT_ID = 50
