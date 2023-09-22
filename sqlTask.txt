@@ -28,11 +28,12 @@
 --	where a.EMPLOYEE_ID = b.MANAGER_ID and a.hire_date < b.hire_date 
 
 --8. Create a report for the HR department that displays employee last names, department numbers, and all the employees who work in the same department as a given employee.
---create view sameDept as
---select emp1.LAST_NAME [name], emp1.DEPARTMENT_ID [department], emp2.*
+--alter view sameDept as
+--select emp1.LAST_NAME [name], emp1.DEPARTMENT_ID [department], emp2.LAST_NAME [colleague]
 --from employees emp1
---inner join departments emp2
+--inner join employees emp2
 --on emp1.DEPARTMENT_ID = emp2.DEPARTMENT_ID
+--where emp1.LAST_NAME != emp2.LAST_NAME
 
 --select * from sameDept
 
