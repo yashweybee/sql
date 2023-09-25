@@ -1,10 +1,8 @@
 --Write a SQL query to find the name and year of the movies. Return movie title, movie release year.
-select mov_title, mov_dt_rel from movie
+select mov_title, DATEPART(YYYY, mov_dt_rel) [movie release year] from movie
 
 --write a SQL query to find when the movie ‘American Beauty’ released. Return movie release year.
-select mov_year from movie where mov_title = 'American Beauty'
-
-select * from movie where mov_year < 1998
+select DATEPART(YYYY, mov_dt_rel) [movie release year] from movie where mov_title = 'American Beauty'
 
 -- write a SQL query to find the movie, which was made in the year 1999. Return movie title.
 select mov_title from movie where mov_year = 1999
