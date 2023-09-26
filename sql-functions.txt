@@ -1,0 +1,24 @@
+select CONCAT(act_fname,' ' ,act_lname) from actor
+select SUBSTRING(mov_title, 0, 2) from movie
+select DATEPART(MM, mov_dt_rel) from movie
+
+select * , ROW_NUMBER() over(order by mov_title) [row] from movie
+
+select * , DENSE_RANK() over(partition by mov_rel_country order by mov_time)[ranks] from movie 
+select * from employees
+
+select ProductName, categoryID, price, avg(Price)[avg price] from products group by CategoryID , ProductName, Price
+
+select distinct CategoryID from products
+
+select ProductName,Price, max(price) over(partition by categoryID )[max price] from products
+
+select getdate() as currTime
+
+select datepart(HH,getdate()) as year
+
+select dateadd(YY, 7,GETDATE()) [new year]
+
+select DATEDIFF(DAY, '2002-12-04', GETDATE()) [abcd]
+
+select CONVERT(varchar(20), getdate()) [new date]
