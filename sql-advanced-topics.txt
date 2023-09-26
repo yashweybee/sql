@@ -1,0 +1,17 @@
+select * from customers
+
+select * from products
+
+select customerName, City,ROW_NUMBER() over(order by customerName) [row num] from customers 
+
+select CustomerName,  City ,NTILE(75) over(order by city) from customers
+
+select customerName, City ,rank() over(partition by country order by city) from customers
+
+select customerName, City , dense_rank() over(partition by country order by city) from customers
+
+select ProductName, Price,rank() over(order by price) from products
+
+select ProductName, Price,dense_rank() over(order by price) from products
+
+select productName, ROW_NUMBER() over(partition by categoryID order by categoryID) from products
