@@ -1,0 +1,41 @@
+select * from products
+
+select * from customers
+select * from order_details
+
+create function doublePrice(
+	@price dec(5,2)
+)
+returns dec(5,2)
+begin
+	 return @price * 2;
+end
+
+create function udfProductsInCategory(
+	@category int
+)
+returns table
+as
+return 
+	select productName, categoryID 
+		from products
+			where CategoryID = @category;
+
+
+create function getMoviesBetYears(
+	@startYear int,
+	@endYear int
+)
+returns table
+as
+return select * from movie where mov_year between @startYear and @endYear;
+
+select * from getMoviesBetYears(1990, 2000) order by mov_year
+
+select * from movie
+
+select doublePrice(price) [double price] from products
+
+select distinct CategoryID from products order by CategoryID
+
+select * from udfProductsInCategory(2)
