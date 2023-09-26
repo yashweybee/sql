@@ -15,3 +15,17 @@ select ProductName, Price,rank() over(order by price) from products
 select ProductName, Price,dense_rank() over(order by price) from products
 
 select productName, ROW_NUMBER() over(partition by categoryID order by categoryID) from products
+
+------------------------------------------------------------------------------------------------------------------
+
+--OFFSET - Advance SQL 
+
+select * from products order by ProductName
+
+select ProductName, SupplierID, CategoryID from products order by ProductName OFFSET 2 rows;
+
+select ProductName, SupplierID, CategoryID from products order by ProductName OFFSET 2 rows fetch next 10 rows only;
+
+select ProductName, SupplierID, CategoryID from products order by ProductName OFFSET 0 rows fetch first 10 rows only;
+
+--------------------------------------------------------------------------------------------------------------------
