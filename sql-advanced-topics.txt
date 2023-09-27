@@ -20,7 +20,7 @@ select productName, ROW_NUMBER() over(partition by categoryID order by categoryI
 
 --OFFSET - Advance SQL 
 
-select * from products order by ProductName
+select * from products order by ProductName 
 
 select ProductName, SupplierID, CategoryID from products order by ProductName OFFSET 2 rows;
 
@@ -29,3 +29,34 @@ select ProductName, SupplierID, CategoryID from products order by ProductName OF
 select ProductName, SupplierID, CategoryID from products order by ProductName OFFSET 0 rows fetch first 10 rows only;
 
 --------------------------------------------------------------------------------------------------------------------
+
+--Types of table 
+
+CREATE TABLE #temp_table ( id INT, name VARCHAR(50) );
+INSERT INTO #temp_table (id, name) VALUES (1, 'John'), (2, 'Jane'), (3, 'Mark');
+
+select * from #temp_table
+
+select productID, ProductName, Price into #product_price from products
+
+select productId, productName into ##new_products from products
+
+select * from ##new_products
+
+select * from #product_price 
+
+--drop table #temp_table
+
+create procedure temp_var as
+declare @temp_var table 
+		(
+		cNmae varchar(200),
+		age int
+		)
+
+insert into @temp_var values ('Yash', 20), ('abcd', 25)
+
+select * from @temp_var
+go
+
+temp_var
