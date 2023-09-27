@@ -90,3 +90,23 @@ deallocate products_price_gtr40
 go
 
 product_price_gtr40
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+--while loop
+
+declare @i int = 0
+while @i < 5
+	begin 
+		print @i;
+		set @i +=1;
+	end
+
+select * from products
+
+declare @count int = 1
+while @count <= 5
+	begin
+		insert into products values (77 + @count, 'abcd Product', 5 + @count, 2 + @count , 66, 100 * @count);
+		set @count += 1;
+	end
