@@ -15,3 +15,190 @@ select ProductName, Price,rank() over(order by price) from products
 select ProductName, Price,dense_rank() over(order by price) from products
 
 select productName, ROW_NUMBER() over(partition by categoryID order by categoryID) from products
+
+------------------------------------------------------------------------------------------------------------------
+
+--OFFSET - Advance SQL 
+
+select * from products order by ProductName 
+
+select ProductName, SupplierID, CategoryID from products order by ProductName OFFSET 2 rows;
+
+select ProductName, SupplierID, CategoryID from products order by ProductName OFFSET 2 rows fetch next 10 rows only;
+
+select ProductName, SupplierID, CategoryID from products order by ProductName OFFSET 0 rows fetch first 10 rows only;
+
+--------------------------------------------------------------------------------------------------------------------
+
+--Types of table 
+
+CREATE TABLE #temp_table ( id INT, name VARCHAR(50) );
+INSERT INTO #temp_table (id, name) VALUES (1, 'John'), (2, 'Jane'), (3, 'Mark');
+
+select * from #temp_table
+
+select productID, ProductName, Price into #product_price from products
+
+select productId, productName into ##new_products from products
+
+select * from ##new_products
+
+select * from #product_price 
+
+--drop table #temp_table
+
+create procedure temp_var as
+declare @temp_var table 
+		(
+		cNmae varchar(200),
+		age int
+		)
+
+insert into @temp_var values ('Yash', 20), ('abcd', 25)
+
+select * from @temp_var
+go
+
+temp_var
+ ------------------------------------------------------------------------------------------------------------------------
+
+ --Cursor
+--select ProductID, productName , categoryID, price from products where price >= 30
+create procedure product_price_gtr40 as
+declare @id int
+declare @name varchar(255)
+declare @catId int
+declare @price int
+
+declare products_price_gtr40 cursor for select ProductID, productName , categoryID, price from products where price >= 40
+
+open products_price_gtr40
+
+fetch next from products_price_gtr40 into @id, @name, @catId, @price
+
+while @@FETCH_STATUS = 0
+begin
+	print 'ID: ' + convert(varchar(20), @id) + ' name: ' + @name + ' catID: ' + convert(varchar(20), @catId)  + ' price: ' + convert(varchar(20), @price) 
+
+	fetch next from products_price_gtr40 into @id, @name, @catId, @price
+end
+
+close products_price_gtr40
+
+deallocate products_price_gtr40
+
+go
+
+product_price_gtr40
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+--while loop
+
+declare @i int = 0
+while @i < 5
+	begin 
+		print @i;
+		set @i +=1;
+	end
+
+select * from products
+
+declare @count int = 1
+while @count <= 5
+	begin
+		insert into products values (77 + @count, 'abcd Product', 5 + @count, 2 + @count , 66, 100 * @count);
+		set @count += 1;
+	end
+
+----------------------------------------------------------------------------------------------------------------------
+
+--try catch
+
+alter procedure divide_error (
+	@a decimal = 50,
+	@b decimal,
+	@c decimal = 0
+) as 
+begin 
+	begin try 
+		set @c = @a / @b;
+		print @c;
+	end try
+	begin catch 
+		select 
+			ERROR_MESSAGE()
+	end catch
+end
+go
+
+divide_error 60, 10
+divide_error 0, 0
+
+---------------------------------------------------------------------------------------------------------------------------
+
+--Date functions
+
+select getdate()
+
+select DATEPART(YYYY, GETDATE())
+
+SELECT YEAR('2023-07-28');
+
+SELECT MONTH('2023-07-28');
+
+SELECT DAY('2023-07-28');
+
+select DATEDIFF(YEAR, '2002-12-04',GETDATE() )
+
+select CONVERT(varchar(20), '2023-07-28')
+
+select CAST('2023-07-28' as date)
+
+select DATEADD(YEAR, 10, GETDATE())
+
+select format(getdate(), 'dd-MM-yy')
+
+select EOMONTH(getdate())
+
+select datepart(WEEKDAY, GETDATE())
+
+select DATENAME(WEEKDAY, GETDATE())
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+--string comparison
+
+select * from customers where CustomerName  = 'yash' 
+
+select * from customers where CustomerName = 'yash' COLLATE Latin1_General_CS_AS 
+
+select * from customers where CustomerName  COLLATE Latin1_General_CI_AI  = 'yash' 
+
+insert into customers values (108, 'yash', 'parmar', 'some address abcd', 'rajkot', '89239', 'india')
+
+select * from products
+
+select productname, SupplierID,
+	case categoryID
+	when 1 then 'one'
+	when 2 then 'two'
+	when 3 then 'three'
+	else 'abcd'
+	end as categories 
+	from products
+
+----------------------------------------------------------------------------------------------------------------------
+
+--User-defined types
+
+create type type1 as table (fname varchar(255), age int)
+
+----------------------------------------------------------------------------------------------------------------------
+
+--PARTITION BY
+
+select * from products
+
+select ProductName , price,CategoryID , max(price) over(partition by categoryID)[max price] from products
+
