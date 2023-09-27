@@ -110,3 +110,27 @@ while @count <= 5
 		insert into products values (77 + @count, 'abcd Product', 5 + @count, 2 + @count , 66, 100 * @count);
 		set @count += 1;
 	end
+
+----------------------------------------------------------------------------------------------------------------------
+
+--try catch
+
+alter procedure divide_error (
+	@a decimal = 50,
+	@b decimal,
+	@c decimal = 0
+) as 
+begin 
+	begin try 
+		set @c = @a / @b;
+		print @c;
+	end try
+	begin catch 
+		select 
+			ERROR_MESSAGE()
+	end catch
+end
+go
+
+divide_error 60, 10
+divide_error 0, 0
