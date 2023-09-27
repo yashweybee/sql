@@ -194,5 +194,11 @@ select productname, SupplierID,
 
 create type type1 as table (fname varchar(255), age int)
 
+----------------------------------------------------------------------------------------------------------------------
 
+--PARTITION BY
+
+select * from products
+
+select ProductName , price,CategoryID , max(price) over(partition by categoryID)[max price] from products
 
