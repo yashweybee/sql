@@ -1,0 +1,102 @@
+--Create a scalar function that accepts string as a parameter and return whether the string is correct mail Id or not
+
+alter function validate_emails(@email varchar(200))
+returns int
+as
+begin
+	declare @validate int
+
+	if(@email is not null and @email like '%_@_%._%' )
+	begin
+		set @validate = 1
+	end
+	else
+	begin
+		set @validate = 0
+	end
+
+	return @validate
+end
+
+select dbo.validate_emails('hadsv@ya.com')[valid]
+
+
+--Create a tabular function that accepts one parameter as employee department and return the employees working in that department.
+ create function emp_by_dept (@emp_dept varchar(200))
+ returns table
+ as
+ return 
+ select e.EMPLOYEE_ID, e.FIRST_NAME, e.LAST_NAME, d.department_name from employees e
+ join departments d on d.department_id = e.DEPARTMENT_ID
+ where d.department_name = @emp_dept
+
+ select * from emp_by_dept('it')
+
+ --Create a function that returns the data of employee records based on the page number passed. Parameters required are PageNumber, PageSize (Hint: use Row_Number, Partition by)
+alter function emp_records (@pagenum int, @pagesize int)
+returns table
+as
+return
+select EMPLOYEE_ID, FIRST_NAME, ROW_NUMBER() over(partition by EMPLOYEE_ID order by EMPLOYEE_ID ) [row]from employees
+order by EMPLOYEE_ID 
+offset @pagesize * (@pagenum - 1) rows 
+fetch next @pagesize rows only
+
+
+select * ,ROW_NUMBER() OVER (partition by Employee_ID ORDER BY Employee_ID) AS RowNum into ##temp_emp2 from employees
+	
+alter procedure GetEmployeeRecordsByPage 
+    @PageNumber INT,
+     @PageSize INT
+	as
+
+    SELECT *
+    FROM
+    ##temp_emp
+    WHERE RowNum between   @pagesize * (@PageNumber - 1) and @PageSize * @PageNumber ;
+
+go
+
+GetEmployeeRecordsByPage 1, 20
+ 
+select * from emp_records(1, 10)
+
+select * from employees order by EMPLOYEE_ID
+
+
+--‘Select EmpId, FirstName, LastName, PhoneNumber, Email from Employees’ check the execution plan for the given query and save it. Now, optimize the query and then check the execution plan and save it.
+
+select EMPLOYEE_ID, FIRST_NAME, LAST_NAME, PHONE_NUMBER, EMAIL from employees
+
+create index emp_index on employees(EMPLOYEE_ID, FIRST_NAME, LAST_NAME, PHONE_NUMBER, EMAIL)
+
+
+--Create a stored procedure that prints the employee info in the following format: 'employeename' hired on 'hiredate' has a salary package of 'salarypackage'
+
+create procedure emp_info as
+ 
+ declare @count int = 1
+ declare @fname varchar(255)
+ declare @lname varchar(255)
+ declare @hdate date
+ declare @sal int
+
+ declare emp cursor for select first_name, last_name, hire_date, salary from employees
+ open emp
+ fetch next from emp into @fname, @lname, @hdate, @sal
+
+ while @count <= 10
+ begin
+	print @fname + @lname + ' hired on ' + convert(varchar(200),  @hdate) + ' has a salary package of '+ convert(varchar(200), @sal);
+	fetch next from emp into @fname, @lname, @hdate, @sal;
+
+	set @count+= 1;
+end
+ close emp
+ deallocate emp
+go
+
+emp_info
+
+
+
