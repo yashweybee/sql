@@ -187,3 +187,12 @@ select productname, SupplierID,
 	else 'abcd'
 	end as categories 
 	from products
+
+----------------------------------------------------------------------------------------------------------------------
+
+--User-defined types
+
+create type type1 as table (fname varchar(255), age int)
+
+
+
