@@ -164,3 +164,26 @@ select EOMONTH(getdate())
 select datepart(WEEKDAY, GETDATE())
 
 select DATENAME(WEEKDAY, GETDATE())
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+--string comparison
+
+select * from customers where CustomerName  = 'yash' 
+
+select * from customers where CustomerName = 'yash' COLLATE Latin1_General_CS_AS 
+
+select * from customers where CustomerName  COLLATE Latin1_General_CI_AI  = 'yash' 
+
+insert into customers values (108, 'yash', 'parmar', 'some address abcd', 'rajkot', '89239', 'india')
+
+select * from products
+
+select productname, SupplierID,
+	case categoryID
+	when 1 then 'one'
+	when 2 then 'two'
+	when 3 then 'three'
+	else 'abcd'
+	end as categories 
+	from products
