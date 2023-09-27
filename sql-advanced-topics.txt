@@ -134,3 +134,33 @@ go
 
 divide_error 60, 10
 divide_error 0, 0
+
+---------------------------------------------------------------------------------------------------------------------------
+
+--Date functions
+
+select getdate()
+
+select DATEPART(YYYY, GETDATE())
+
+SELECT YEAR('2023-07-28');
+
+SELECT MONTH('2023-07-28');
+
+SELECT DAY('2023-07-28');
+
+select DATEDIFF(YEAR, '2002-12-04',GETDATE() )
+
+select CONVERT(varchar(20), '2023-07-28')
+
+select CAST('2023-07-28' as date)
+
+select DATEADD(YEAR, 10, GETDATE())
+
+select format(getdate(), 'dd-MM-yy')
+
+select EOMONTH(getdate())
+
+select datepart(WEEKDAY, GETDATE())
+
+select DATENAME(WEEKDAY, GETDATE())
