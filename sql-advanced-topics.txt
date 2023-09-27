@@ -60,3 +60,33 @@ select * from @temp_var
 go
 
 temp_var
+ ------------------------------------------------------------------------------------------------------------------------
+
+ --Cursor
+--select ProductID, productName , categoryID, price from products where price >= 30
+create procedure product_price_gtr40 as
+declare @id int
+declare @name varchar(255)
+declare @catId int
+declare @price int
+
+declare products_price_gtr40 cursor for select ProductID, productName , categoryID, price from products where price >= 40
+
+open products_price_gtr40
+
+fetch next from products_price_gtr40 into @id, @name, @catId, @price
+
+while @@FETCH_STATUS = 0
+begin
+	print 'ID: ' + convert(varchar(20), @id) + ' name: ' + @name + ' catID: ' + convert(varchar(20), @catId)  + ' price: ' + convert(varchar(20), @price) 
+
+	fetch next from products_price_gtr40 into @id, @name, @catId, @price
+end
+
+close products_price_gtr40
+
+deallocate products_price_gtr40
+
+go
+
+product_price_gtr40
